@@ -1,0 +1,3 @@
+{"mongoURI":"mongodb+srv://Food123:Food123@foodapp.kmoxy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+"jwtSecret":"Food'secretToken"
+}
