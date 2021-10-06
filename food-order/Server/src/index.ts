@@ -2,8 +2,10 @@ import express,{Application,Request,Response,NextFunction} from 'express';
 import crypto from "crypto";
 import dotenv from "dotenv";
 import config from "config";
-import bodyParser from "body-parser"
+import bodyParser from "body-parser";
 import { connectdb } from './config/db';
+import user from './routers/user';
+import auth from './routers/auth'
 
 const app: Application = express();
 
@@ -24,9 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get("/helloworld", (req: Request, res: Response) => {
-  res.send("Hello World");
-});
+app.use('/api/user',user);
+app.use('/api/auth',auth);
  
 app.listen(port, () => {
       console.log("Server started on port 3000!");
