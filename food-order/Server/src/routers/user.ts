@@ -1,21 +1,21 @@
-import express, { Router, Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import config from 'config';
-import { check, validationResult } from 'express-validator';
-import User from '../entity/User';
+import express, { Router, Request, Response } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import config from "config";
+import { check, validationResult } from "express-validator";
+import User from "../entity/User";
 const router = Router();
 dotenv.config();
 const Secret = process.env.ACCESS_TOKEN as string;
 router.post(
-  '/',
-  check('email', 'Please include a valid email').isEmail(),
+  "/",
+  check("email", "Please include a valid email").isEmail(),
   check(
-    'password',
-    'Please enter a password with 6 or more characters'
+    "password",
+    "Please enter a password with 6 or more characters"
   ).isLength({ min: 6 }),
-  check('phone', 'Please enter the valid number').isLength({ max: 10 }),
+  check("phone", "Please enter the valid number").isLength({ max: 10 }),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -28,7 +28,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] });
+          .json({ errors: [{ msg: "User already exists" }] });
       }
       user = new User({
         email,
@@ -48,12 +48,12 @@ router.post(
         },
       };
 
-      jwt.sign(payload, Secret, { expiresIn: '5 days' }, (err, token) => {
+      jwt.sign(payload, Secret, { expiresIn: "5 days" }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
     } catch (err) {
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );
