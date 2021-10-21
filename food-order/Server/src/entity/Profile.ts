@@ -1,7 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import { IUser } from './User';
 
 export interface IProfile extends Document {
-  user: string;
+  user: IUser['_id'];
   address: string;
   pincode: number;
   profile_picture: string;

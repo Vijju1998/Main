@@ -1,14 +1,15 @@
 import express, { Router, Request, Response } from 'express';
 import checkJwt from '../middleware/checkjwt';
-import Profile from '../entity/Profile';
-import User from '../entity/User';
+import Profile, { IProfile } from '../entity/Profile';
+import User, { IUser } from '../entity/User';
+
 import { check, validationResult } from 'express-validator';
 const router = Router();
 interface ProfileFields {
-  user: string;
-  address: string;
-  pincode: number;
-  profile_picture?: string;
+  user: IProfile['_id'];
+  address: IProfile['address'];
+  pincode: IProfile['pincode'];
+  profile_picture?: ['profile_picture'];
 }
 
 //@route        POST api/profile

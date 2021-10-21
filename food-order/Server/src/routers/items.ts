@@ -1,26 +1,22 @@
-import express, { Request, Response, NextFunction, Router } from "express";
+import express, { Request, Response, NextFunction, Router } from 'express';
 // import { check} from 'express-validator';
-import Item from "../entity/Items";
+import Item, { IItems } from '../entity/Items';
 
 interface AddItemsType {
-  item_name: string;
-  item_image: string;
-  description: string;
-  price: number;
-  quantity: number;
-  food_types: {
-    food_type: string;
-  };
-  category: {
-    cat_type: string;
-  };
+  item_name: IItems['item_name'];
+  item_image: IItems['item_image'];
+  description: IItems['description'];
+  price: IItems['price'];
+  quantity: IItems['quantity'];
+  food_types: IItems['food_types'];
+  category: IItems['category'];
 }
 
 const router = Router();
 
 //post the items
 router.post(
-  "/",
+  '/',
   // check('item_name', 'Item name is required').not().isEmpty(),
   // check('price', ' price is required').not().isEmpty(),
   // check('quantity', 'Address is required').not().isEmpty(),
@@ -58,41 +54,41 @@ router.post(
 );
 
 //Retrieve all the items
-router.get("/", async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const items = await Item.find({});
     if (!items) {
-      return res.status(400).json({ msg: "No items Found" });
+      return res.status(400).json({ msg: 'No items Found' });
     }
     res.json(items);
   } catch (error) {
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 //Delete the particular Items
-router.delete("/:id", async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
     if (!id) {
-      return res.status(400).json({ msg: "No item is selected" });
+      return res.status(400).json({ msg: 'No item is selected' });
     }
     await Item.findByIdAndRemove({ _id: id });
-    res.json({ msg: "Item deleted" });
+    res.json({ msg: 'Item deleted' });
   } catch (error) {
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 //Update the particular Items
-router.patch("/:id", async (req: Request, res: Response) => {
+router.patch('/:id', async (req: Request, res: Response) => {
   const updateItems = req.body;
   const id = req.params.id;
   if (!(updateItems && id))
-    return res.status(400).json({ msg: "cannot update" });
+    return res.status(400).json({ msg: 'cannot update' });
   await Item.updateOne({ _id: id }, { $set: updateItems });
-  res.json({ msg: "Item Updated" });
+  res.json({ msg: 'Item Updated' });
 });
 
 export default router;
