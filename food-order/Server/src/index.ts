@@ -7,7 +7,8 @@ import { connectdb } from './config/db';
 import user from './routers/user';
 import auth from './routers/auth';
 import profile from './routers/profile';
-import item from "./routers/items"
+import item from './routers/items';
+import order from './routers/order';
 const app: Application = express();
 
 // let token =crypto.randomBytes(64).toString('hex');
@@ -25,10 +26,11 @@ connectdb();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use('/api/user', user);
-// app.use('/api/auth', auth);
-// app.use('/api/profile', profile);
-app.use('/api/item', item)
+app.use('/api/user', user);
+app.use('/api/auth', auth);
+app.use('/api/profile', profile);
+app.use('/api/item', item);
+app.use('/api/order', order);
 
 app.listen(port, () => {
   console.log('Server started on port 3000!');
