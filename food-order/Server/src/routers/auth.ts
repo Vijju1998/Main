@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import config from 'config';
 import User from '../entity/User';
 import { check, validationResult } from 'express-validator';
+import AdminRole from "../entity/AdminRole"
+
 
 dotenv.config();
 const Secret = process.env.ACCESS_TOKEN as string;
@@ -35,8 +37,36 @@ router.post(
     }
 
     const { email, password } = req.body;
+    
+/*
+{"email":"ramukaka@gmail.com",
+    
+    "password":"12345678"}*/
+
+//
+if(await AdminRole.findOne({ email: email.toLowerCase()})){
+let admin = await AdminRole.find({email:email.toLowerCase(),password:password});
+if(admin.length == 0){
+  return res.send("Invalid Admin")
+}else{
+const payload = {
+  admin : {
+    id:admin[0].id
+  }
+}
+jwt.sign(payload, Secret, { expiresIn: '5 days' }, (err, token) => {
+        if (err) throw err;
+        res.json({ 
+          id:admin[0].id,
+          email:admin[0].email,
+          password:admin[0].password,
+          accessToken:token });
+      });
+}
+}else{
 
     try {
+      
       let user = await User.findOne({ email: email.toLowerCase() });
 
       if (!user) {
@@ -66,6 +96,7 @@ router.post(
     } catch (err) {
       res.status(500).send('Server error');
     }
+}
   }
 );
 export default router;
