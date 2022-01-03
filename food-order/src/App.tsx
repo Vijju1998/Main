@@ -1,15 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Login } from './components/Login';
-
-
-function App() {
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { Launcher } from '@pages/Launcher';
+const queryClient = new QueryClient();
+export const App: React.FC = () => {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <Launcher />
+        <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+      </QueryClientProvider>
+    </>
   );
-}
-
-export default App;
+};

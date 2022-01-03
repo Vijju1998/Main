@@ -14,7 +14,7 @@ const app: Application = express();
 // let token =crypto.randomBytes(64).toString('hex');
 // console.log(token)
 
-const port = 3000;
+const port = 3001;
 dotenv.config();
 
 //connect database
