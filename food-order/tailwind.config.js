@@ -29,7 +29,7 @@ module.exports = {
            'base-300' : '#d1d5db',          /* Base color, even more darker */
            'base-content' : '#1f2937',      /* Foreground content color to use on base color */
 
-           'info' : '#2094f3',              /* Info */
+           'info' : '#232323',              /* Info */
            'success' : '#009485',           /* Success */
            'warning' : '#ff9900',           /* Warning */
            'error' : '#ff5724',             /* Error */
