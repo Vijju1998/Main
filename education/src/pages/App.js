@@ -1,9 +1,11 @@
-function App() {
+import LandingPage from './LandingPage/landingPage';
+// import "../assets/css/style.css";
+const App = function () {
   return (
-    <div className="App">
-      <h1>React</h1>
+    <div>
+      <LandingPage />
     </div>
   );
-}
+};
 
 export default App;
