@@ -1,8 +1,7 @@
-import React from 'react';
-import LandingPage from '@pages/LandingPage/landingPage';
-import '@assets/css/style';
+import * as React from 'react';
+import LandingPage from './LandingPage/landingPage';
 
-const App: React.FC = function () {
+const App: React.FunctionComponent = function () {
   return (
     <div>
       <LandingPage />
