@@ -10,4 +10,10 @@ module.exports = {
     },
   },
   plugins: [require('daisyui')],
+  daisyui: {
+    themes: [],
+  },
+  variants: {
+    extend: {},
+  },
 };
