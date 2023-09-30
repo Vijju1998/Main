@@ -1,0 +1,53 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": "auto",
+        "targets": {
+          "browsers": [
+            "last 2 Chrome versions",
+            "last 2 Firefox versions",
+            "last 2 Safari versions",
+            "last 2 iOS versions",
+            "last 1 Android version",
+            "last 1 ChromeAndroid version"
+          ]
+        }
+      }
+    ],
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "macros",
+    [
+      "babel-plugin-module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          // Add your aliases here
+          "@assets": "./src/assets",
+          "@components": "./src/components",
+          "@hooks": "./src/hooks",
+          "@api": "./src/api",
+          "@store": "./src/store",
+          "@pages": "./src/pages"
+        }
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["dynamic-import-node"]
+    }
+  }
+}
