@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import styles from '@component/styles/Home.module.css'
 import Dashboard from './dashboard/Dashboard'
-import Header from './components/Header'
-import SideMenu from './components/SideMenu'
+import Login from '@component/component/login/Login'
+import Header from '@component/component/Header'
+import SideMenu from '@component/component/SideMenu'
 export default function Home() {
   return (
     <>
@@ -16,6 +17,7 @@ export default function Home() {
         <Header/>
         <SideMenu/>
         <Dashboard/>
+        <Login/>
       </main>
     </>
   )
