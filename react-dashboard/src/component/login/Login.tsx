@@ -1,50 +1,22 @@
-import { Avatar } from "@mui/material";
 import {useSession, signIn,signOut} from "next-auth/react";
-import { useAuth } from "@component/state/auth";
-import { useEffect, useState } from "react";
-interface profileProps {
-    name:string;
-    image:string
-}
-const Login = () =>{
+import Button from "@mui/material/Button"
+import React from "react";
+//import { useAuth } from "@component/state/auth";
+const Login:React.FunctionComponent = function(){
     const {data : session} = useSession();
-    const {userName,img,addProfile,removeProfile} = useAuth();
-    const [profiles,setProfile] = useState<profileProps>({
-        name:"",
-        image:""
-    });
-   
+   // const {addProfile,removeProfile} = useAuth();
+ 
 
-    useEffect(() =>{
-            setProfile({
-            name:session?.user?.name as string,
-            image:session?.user?.image as string
-            })
-    },[profiles.name,profiles.image]);
-    console.log(profiles)
-   const logout = () => {
-        signOut();
-        removeProfile();
-    }
 
-    const login = (profiles:profileProps) => {
-
-        const {name,image} = profiles
-        signIn();
-        addProfile(name,image);
-    }
     if(session){
-        console.log("When Signed In page renders....!");
         return <>
-         Signed in as a {session?.user?.email} and userName is {userName}<br/>
-         <Avatar alt={userName} src={img} />
-         <button onClick={() => logout()}> Sign out </button>
+         Signed in as a {session?.user?.email}<br/>
+         <Button variant="contained" color="error" onClick={() => signOut()}> Sign out </Button>
         </>
     }
-        console.log("When Signed out page renders....!");
     return<>
-        Not Signed In <br/>
-        <button onClick={() => login(profiles)}> Sign In </button>
+        <h2>Please Login</h2><br/>
+        <Button variant="contained" color="success" onClick={() => signIn()}> Sign In </Button>
     </>
 }
 

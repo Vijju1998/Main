@@ -1,7 +1,10 @@
 
 export interface AuthIProps{
-    userName:string;
+    user:string;
     img:string;
-    addProfile:(user:string,img:string) => void;
-    removeProfile:() => void;
+    loggedIn:boolean;
+    userSession:(user:string,img:string) => void
 }
+
+
+

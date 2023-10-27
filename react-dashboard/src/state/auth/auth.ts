@@ -1,23 +1,18 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { AuthIProps } from "./authType";
-
+import { AuthIProps} from "./authType";
 export const useAuth = create<AuthIProps>()(
   devtools(
     persist(
       (set) => ({
-        userName: "",
+        user:"",
         img: "",
-        addProfile: (user,img) =>
-          set(() => ({
-            userName: user,
-            img: img,
-          })),
-          removeProfile:() =>
-            set(() => ({
-                userName:"",
-                img:""
-            })),
+        loggedIn: false,
+        userSession: (user:string,img:string) => set(() =>({
+          user:user,
+          img:img,
+          loggedIn:Boolean(user),
+      })),
       }),
       { name: "authStore" }
     )

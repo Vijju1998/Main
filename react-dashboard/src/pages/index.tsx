@@ -1,10 +1,13 @@
 import Head from 'next/head'
-import styles from '@component/styles/Home.module.css'
 import Dashboard from './dashboard/Dashboard'
 import Login from '@component/component/login/Login'
 import Header from '@component/component/Header'
 import SideMenu from '@component/component/SideMenu'
-export default function Home() {
+import { useSession } from 'next-auth/react'
+import darkTheme from '@component/theme/darkTheme'
+import scss from "../styles/Home.module.scss"
+const Home: React.FunctionComponent = function () {
+  const { data: session } = useSession()
   return (
     <>
       <Head>
@@ -13,12 +16,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Header/>
-        <SideMenu/>
-        <Dashboard/>
-        <Login/>
+      <main className={scss.main}>
+        <Header />
+        {
+          session && (
+            <>
+              <SideMenu />
+              <Dashboard />
+            </>
+          )
+        }
+        <Login />
       </main>
     </>
   )
 }
+export default Home;
