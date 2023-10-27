@@ -2,8 +2,6 @@ import React, { FC, useMemo, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { Box, createTheme, CssBaseline, IconButton, ThemeProvider } from '@mui/material'
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ThemeToggleButton from '@component/component/ThemeToggleButton';
 
 
