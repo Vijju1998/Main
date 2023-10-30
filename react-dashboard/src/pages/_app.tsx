@@ -1,51 +1,63 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useMemo, useState, createContext } from 'react'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { Box, createTheme, CssBaseline, IconButton, ThemeProvider } from '@mui/material'
-import ThemeToggleButton from '@component/component/ThemeToggleButton';
+import Header from '@component/component/Header'
+import darkTheme from '@component/theme/darkTheme';
+import lightTheme from '@component/theme/lightTheme';
 
-
+const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
 const App: FC<AppProps> = ({
   Component, pageProps: { session, ...pageProps }
 }) => {
   const [mode, setMode] = useState<'light' | 'dark'>("dark");
+
   const colorMode = useMemo(() => ({
     toggleColorMode: () => {
       setMode(prev => prev === 'dark' ? 'light' : 'dark')
     }
   }), [mode])
 
-  const theme = useMemo(
+
+  const darkThemeOption = useMemo(
     () =>
       createTheme({
-        palette: {
-          mode,
-        },
+        ...darkTheme
+
       }), [mode]);
 
+
+  const ligthThemeOption = useMemo(
+    () =>
+      createTheme({
+        ...lightTheme
+
+      }), [mode]);
+
+
+
   return (
-
-    <ThemeProvider theme={theme}>
-      <SessionProvider session={session}>
-        <CssBaseline />
-        <Box sx={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          bgcolor: "background.default",
-          color: "text.primary",
-          borderRadius: 1,
-          p: 3
-        }}>
-          
-          <ThemeToggleButton colorMode={colorMode.toggleColorMode} theme={theme} />
-        </Box>
-        <Component {...pageProps} />
-      </SessionProvider>
-    </ThemeProvider>
-
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={mode === 'dark' ? darkThemeOption : ligthThemeOption}>
+        <SessionProvider session={session}>
+          <CssBaseline />
+          <Box sx={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: "background.default",
+            color: "text.primary",
+            borderRadius: 1,
+            p: 3
+          }}>
+            <Header ColorModeContext={ColorModeContext} />
+          </Box>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   )
 }
 export default App;

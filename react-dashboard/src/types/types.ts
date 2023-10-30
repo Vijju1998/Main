@@ -1,10 +1,5 @@
 
 
-export interface ToggleProps  {
-    colorMode: () => void;
-    theme: {
-        palette: {
-            mode: string
-        },
-    }
+export type ToggleProps = {
+    ColorModeContext : React.Context<{toggleColorMode : () => void;}>
 }

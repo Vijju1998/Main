@@ -9,7 +9,12 @@ const lightTheme:ThemeOptions = {
         },
         secondary:{
             main:'#7000ff'
-        }
+        },
+        background:{
+            default:'#fff'
+        },
+        
+        
     }
 }
 

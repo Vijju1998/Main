@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Dashboard from './dashboard/Dashboard'
+import Dashboard from './dashboard/settings/Dashboard'
 import Login from '@component/component/login/Login'
 import Header from '@component/component/Header'
 import SideMenu from '@component/component/SideMenu'
@@ -17,7 +17,7 @@ const Home: React.FunctionComponent = function () {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={scss.main}>
-        <Header />
+        
         {
           session && (
             <>

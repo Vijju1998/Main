@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {FC,useState,useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,20 +13,23 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {useSession, signIn,signOut} from "next-auth/react";
+import ThemeToggleButton from '../ThemeToggleButton';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 import {useAuth} from "../../state/auth/auth"
-import { useEffect } from 'react';
-const Header = () => {
+import { ToggleProps } from "@component/types/types";
+import { useMediaQuery } from '@mui/material';
+
+const Header: FC<ToggleProps>= ({ColorModeContext}) => {
     const {data : session} = useSession();
-   const {user,img,loggedIn,userSession} = useAuth();
+   const {loggedIn,userSession} = useAuth();
     const name = session?.user?.name as string;
     const image = session?.user?.image as string;
     //const { userName, img,loggedIn} = useAuth();
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -43,8 +46,9 @@ const Header = () => {
         setAnchorElUser(null);
     };
 
+    const  tabletCheck = useMediaQuery('(min-width:768px)');
+
 useEffect(() =>{
-        console.log(loggedIn)
         userSession(session?.user?.name as string,session?.user?.image as string)
     },[loggedIn])
 
@@ -125,7 +129,7 @@ useEffect(() =>{
                                 textDecoration: 'none',
                             }}
                         >
-                            LOGO
+                            DataSoft
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page) => (
@@ -138,14 +142,17 @@ useEffect(() =>{
                                 </Button>
                             ))}
                         </Box>
-                        {session && (
+                        {tabletCheck &&
+                        session && (
                             <Box sx={{
-                                paddingRight:1
+                                paddingRight:1,
+                                textWrap:'nowrap'
                             }}>
                             
                                 <Typography>Signed in as {session?.user?.email}</Typography>
                          </Box>
-                        )}                 
+                        )}  
+                        <ThemeToggleButton ColorModeContext={ColorModeContext}/>           
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open profile settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
