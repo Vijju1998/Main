@@ -57,7 +57,7 @@ useEffect(() =>{
             <AppBar position="relative" sx={{backgroundColor:'#242526',boxShadow:'2px 2px 7px 4px gray;'}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 5 }} />
                         <Typography
                             variant="h6"
                             noWrap
