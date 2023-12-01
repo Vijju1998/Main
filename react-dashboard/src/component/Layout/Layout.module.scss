@@ -1,0 +1,7 @@
+.layout{
+    max-width: 85rem;
+    margin:'auto';
+    @media screen  and (min-width: 1700px){
+        max-width: 92rem;
+    }
+}

@@ -1,10 +1,11 @@
 import React, { FC, useMemo, useState, createContext } from 'react'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
-import { Box, createTheme, CssBaseline, IconButton, ThemeProvider } from '@mui/material'
+import { createTheme, CssBaseline, IconButton, ThemeProvider } from '@mui/material'
 import Header from '@component/component/Header'
 import darkTheme from '@component/theme/darkTheme';
 import lightTheme from '@component/theme/lightTheme';
+import Layout from '@component/component/Layout'
 
 const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
@@ -42,19 +43,10 @@ const App: FC<AppProps> = ({
       <ThemeProvider theme={mode === 'dark' ? darkThemeOption : ligthThemeOption}>
         <SessionProvider session={session}>
           <CssBaseline />
-          <Box sx={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            bgcolor: "background.default",
-            color: "text.primary",
-            borderRadius: 1,
-            p: 3
-          }}>
-            <Header ColorModeContext={ColorModeContext} />
-          </Box>
-          <Component {...pageProps} />
+          <Header ColorModeContext={ColorModeContext} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout> 
         </SessionProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>

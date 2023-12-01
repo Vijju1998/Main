@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
+import { signOut } from "next-auth/react";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -16,12 +17,27 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DrawerHeaderscss from "./SideMenu.module.scss"
 import { useState } from 'react';
+import { useMediaQuery } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NextLink from "next/link"
 const drawerWidth = 240;
 
+type mobileCheckProps = boolean;
+
+const menuRouteList = ["analyticss", "profile", "settings", ""];
+const menuListTransition = ["Data", "Profile", "Setting", "Sign Out"];
+const menuListIcons = [
+    <EqualizerIcon />,
+    <AccountCircleIcon />,
+    <SettingsIcon />,
+    <LogoutIcon />
+];
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -48,11 +64,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 1)
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'mobileCheck' }
+)<{ mobileCheck: mobileCheckProps }>(({ theme, open, mobileCheck }) => ({
+    width: drawerWidth,
+
+    ['& .MuiDrawer-paper']: {
+        top: mobileCheck ? 64 : 60,
+        left: 0,
         flexShrink: 0,
-        marginBottom:'10vh',
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...(open && {
@@ -63,77 +82,65 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             ...closedMixin(theme),
             '& .MuiDrawer-paper': closedMixin(theme),
         }),
-    }),
+    },
+
+}),
 );
 
 const SideMenu: React.FunctionComponent = function () {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-
+    const mobileCheck = useMediaQuery('(min-width:600px)')
     const handleDrawerOpenClose = () => {
         setOpen(props => !props);
     };
+    const handleSignout = (text: string) => {
+        text === "Sign Out" ? signOut() : "";
+        setOpen(!open);
 
+    }
     return (
         <>
-        
-        <Drawer variant="permanent" open={open}>
-            <DrawerHeader>
-                <IconButton onClick={handleDrawerOpenClose}>
-                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-            </DrawerHeader>
-            <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 48,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 48,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-        </Drawer>
+
+            <Drawer variant="permanent" open={open} mobileCheck={mobileCheck}>
+                <DrawerHeader >
+                    <IconButton onClick={handleDrawerOpenClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </DrawerHeader>
+                <Divider />
+                <List>
+                    {menuListTransition.map((text, index) => (
+                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                            <NextLink className={DrawerHeaderscss.link}
+                                href={`/dashboard/${menuRouteList[index]}`}>
+                                <ListItemButton
+                                
+                                    onClick={() => { handleSignout(text) }}
+                                    title={text}
+                                    aria-label={text}
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {menuListIcons[index]}
+                                    </ListItemIcon>
+                                    <ListItemText primary={text} sx={{ color: theme.palette.text.primary, opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </NextLink>
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
         </>
     )
 }

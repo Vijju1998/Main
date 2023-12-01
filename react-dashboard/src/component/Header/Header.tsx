@@ -1,4 +1,4 @@
-import {FC,useState,useEffect} from 'react';
+import { FC, useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,18 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {useSession, signIn,signOut} from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import ThemeToggleButton from '../ThemeToggleButton';
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-import {useAuth} from "../../state/auth/auth"
+import { useAuth } from "../../state/auth/auth"
 import { ToggleProps } from "@component/types/types";
 import { useMediaQuery } from '@mui/material';
 
-const Header: FC<ToggleProps>= ({ColorModeContext}) => {
-    const {data : session} = useSession();
-   const {loggedIn,userSession} = useAuth();
+const Header: FC<ToggleProps> = ({ ColorModeContext }) => {
+    const { data: session } = useSession();
+    const { loggedIn, userSession } = useAuth();
     const name = session?.user?.name as string;
     const image = session?.user?.image as string;
     //const { userName, img,loggedIn} = useAuth();
@@ -46,15 +44,15 @@ const Header: FC<ToggleProps>= ({ColorModeContext}) => {
         setAnchorElUser(null);
     };
 
-    const  tabletCheck = useMediaQuery('(min-width:768px)');
+    const tabletCheck = useMediaQuery('(min-width:768px)');
 
-useEffect(() =>{
-        userSession(session?.user?.name as string,session?.user?.image as string)
-    },[loggedIn])
+    useEffect(() => {
+        userSession(session?.user?.name as string, session?.user?.image as string)
+    }, [loggedIn])
 
     return (
         <>
-            <AppBar position="relative" sx={{backgroundColor:'#242526',boxShadow:'2px 2px 7px 4px gray;'}}>
+            <AppBar position="fixed" sx={{ boxShadow: '2px 2px 7px 4px gray;'}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 5 }} />
@@ -76,42 +74,6 @@ useEffect(() =>{
                             DataSoft
                         </Typography>
 
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
-                            >
-                                {pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
                         <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                         <Typography
                             variant="h5"
@@ -131,28 +93,18 @@ useEffect(() =>{
                         >
                             DataSoft
                         </Typography>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </Box>
                         {tabletCheck &&
-                        session && (
-                            <Box sx={{
-                                paddingRight:1,
-                                textWrap:'nowrap'
-                            }}>
-                            
-                                <Typography>Signed in as {session?.user?.email}</Typography>
-                         </Box>
-                        )}  
-                        <ThemeToggleButton ColorModeContext={ColorModeContext}/>           
+                            session && (
+                                <Box sx={{
+                                    paddingRight: 1,
+                                    textWrap: 'nowrap',
+                                    marginLeft: 'auto'
+                                }}>
+
+                                    <Typography>Signed in as {session?.user?.email}</Typography>
+                                </Box>
+                            )}
+                        <ThemeToggleButton ColorModeContext={ColorModeContext} />
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open profile settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -175,10 +127,10 @@ useEffect(() =>{
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                
-                                    <MenuItem onClick={() => session ? signOut() : signIn()}>
-                                        <Typography textAlign="center">{session ? 'Logout' : 'Login'}</Typography>
-                                    </MenuItem>
+
+                                <MenuItem onClick={() => session ? signOut() : signIn()}>
+                                    <Typography textAlign="center">{session ? 'Logout' : 'Login'}</Typography>
+                                </MenuItem>
                             </Menu>
                         </Box>
                     </Toolbar>

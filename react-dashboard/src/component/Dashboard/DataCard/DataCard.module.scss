@@ -1,0 +1,18 @@
+.datacard{
+    position: relative;
+    top:1rem;
+    height:100%;
+    width: 100%;
+    padding:1rem;
+    p{
+        padding: 0.5rem 1rem;
+        margin:0;
+    }
+}
+.header{
+    display: flex;
+    justify-content: center;
+   button p {
+    padding: 0.25rem;
+   }
+}
