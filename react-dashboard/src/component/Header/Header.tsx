@@ -52,7 +52,7 @@ const Header: FC<ToggleProps> = ({ ColorModeContext }) => {
 
     return (
         <>
-            <AppBar position="fixed" sx={{ boxShadow: '2px 2px 7px 4px gray;'}}>
+            <AppBar position="fixed">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 5 }} />

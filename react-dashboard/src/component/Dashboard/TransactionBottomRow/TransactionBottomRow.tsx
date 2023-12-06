@@ -7,25 +7,25 @@ const TransactionBottomRow = () => {
     return (
         <Grid container className={TransactionBottomRowCss.bottomRow}>
             <Grid>
-                <Paper>
+                <Paper className={TransactionBottomRowCss.dataCard}>
                     <p>Transaction per user type</p>
                     <DataChart type={'doughnut'} data={doubtnutChartData} />
                 </Paper>
             </Grid>
             <Grid>
-                <Paper>
+                <Paper className={TransactionBottomRowCss.dataCard}>
                     <p>Transaction per user type</p>
                     <DataChart type={'doughnut'} data={doubtnutChartData} />
                 </Paper>
             </Grid>
             <Grid>
-                <Paper>
+                <Paper className={TransactionBottomRowCss.dataCard}>
                     <p>Transaction per user type</p>
                     <DataChart type={'doughnut'} data={doubtnutChartData} />
                 </Paper>
             </Grid>
             <Grid>
-                <Paper>
+                <Paper className={TransactionBottomRowCss.dataCard}>
                     <p>Transaction per user type</p>
                     <DataChart type={'doughnut'} data={doubtnutChartData} />
                 </Paper>

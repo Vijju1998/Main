@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react"
 import { FC } from "react"
 import SideMenu from "../SideMenu";
 import Head from 'next/head'
+import Footer from "../Footer";
 
 type LayoutProps = {
     children: JSX.Element
@@ -24,7 +25,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
             >
                 {session && <SideMenu /> }
                 {children}
-
+                <Footer/>
             </main>
         </>
     )
